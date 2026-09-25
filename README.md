@@ -16,9 +16,14 @@ image, button, and menu item comes from the database and is editable from `/admi
 2. In the SQL editor, run, **in this order**:
    - `supabase/schema.sql`
    - `supabase/rls.sql`
+   - `supabase/storage-policies.sql`
    - `supabase/seed.sql`
 3. In **Storage**, create a bucket named `media` and mark it **public** (gallery uploads and the
-   media library both write to this bucket).
+   media library both write to this bucket). Marking it public only makes *downloads* public —
+   Storage has its own RLS separate from the database tables, so also run
+   `supabase/storage-policies.sql` in the SQL editor (after `rls.sql`, since it reuses the
+   `is_admin()` helper defined there) or uploads will fail with
+   `new row violates row-level security policy`.
 4. In **Authentication → Users**, create your first admin login manually (email + password), then
    run this in the SQL editor to make that user a Super Admin (replace the UUID with the new
    user's id from the Users table):
