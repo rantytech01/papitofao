@@ -2,6 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CandidateProfile, HomepageSection } from "@/lib/types";
 
+/**
+ * TEMPORARY: headline, subtext, second button, and the three quick-links
+ * below are hardcoded to match the party site 1:1, per explicit request
+ * (get the layout/visual match first, wire Papito-specific copy in later).
+ * Everything marked below is a good candidate to move into
+ * homepage_sections fields (or new columns) once the wording is final —
+ * the first button and image already pull from the CMS.
+ */
 export function Hero({
   candidate,
   section,
@@ -11,23 +19,19 @@ export function Hero({
 }) {
   if (!candidate) return null;
 
-  // Split the candidate's name onto two stacked lines the way the party site
-  // stacks "TukoChama / TukoPM" — first word(s) navy, last word red.
-  const nameParts = candidate.candidate_name.trim().split(" ");
-  const firstLine = nameParts.slice(0, -1).join(" ") || nameParts[0];
-  const lastLine = nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
-
   return (
     <section className="bg-white">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 md:grid-cols-2 md:px-6 md:py-20">
         <div>
+          {/* HARDCODED — replace with Papito's own headline when ready */}
           <h1 className="font-display text-5xl font-extrabold leading-[0.95] tracking-tight md:text-6xl">
-            <span className="block text-campaign-navy">{firstLine}</span>
-            {lastLine && <span className="block text-campaign-red">{lastLine}</span>}
+            <span className="block text-campaign-navy">TukoChama</span>
+            <span className="block text-campaign-red">TukoPM</span>
           </h1>
 
+          {/* HARDCODED subtext to match party site — swap for candidate.hero_description later */}
           <p className="mt-5 max-w-md text-lg text-campaign-navy/70">
-            {section?.description || candidate.hero_description || `Welcome to the ${candidate.movement_name} campaign.`}
+            Welcome to PM Party, the People&apos;s Movement.
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
@@ -35,20 +39,22 @@ export function Hero({
               href="/volunteer"
               className="rounded-full bg-campaign-red px-7 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
             >
-              Get Involved
+              Become a Member
             </Link>
+            {/* HARDCODED second button — schema only has one button slot today */}
             <Link
-              href={section?.button_url || "/about"}
+              href="/volunteer"
               className="rounded-full bg-campaign-navy px-7 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
             >
-              {section?.button_text || "Learn About Newton"}
+              Apply as Aspirant
             </Link>
           </div>
 
+          {/* HARDCODED quick links to match party site's Donate/Volunteer/Member Login row */}
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-campaign-blue">
-            <Link href="/volunteer" className="hover:underline">Volunteer →</Link>
-            <Link href="/contact" className="hover:underline">Contact →</Link>
-            <Link href="/events" className="hover:underline">Events →</Link>
+            <Link href="/contact" className="border-b border-campaign-red pb-0.5 hover:opacity-80">Donate →</Link>
+            <Link href="/volunteer" className="border-b border-campaign-blue pb-0.5 hover:opacity-80">Volunteer →</Link>
+            <Link href="/admin/login" className="border-b border-campaign-blue pb-0.5 hover:opacity-80">Member Login →</Link>
           </div>
         </div>
 

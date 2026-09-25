@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Search } from "lucide-react";
 import { ContactButtons } from "@/components/contact-buttons";
 import type { CampaignSettings, CandidateProfile, NavigationItem } from "@/lib/types";
 
@@ -55,15 +55,19 @@ export function SiteHeader({
               href={item.url}
               target={item.open_in_new_tab ? "_blank" : undefined}
               rel={item.open_in_new_tab ? "noopener noreferrer" : undefined}
-              className="text-[15px] font-medium text-campaign-navy/80 transition-colors hover:text-campaign-blue"
+              className="text-[13px] font-bold uppercase tracking-wide text-campaign-navy/80 transition-colors hover:text-campaign-blue"
             >
               {item.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="hidden items-center gap-4 md:flex">
           <ContactButtons settings={campaignSettings} variant="compact" />
+          {/* Decorative for now, matching the party site — wire up a real search when there's content to search */}
+          <button aria-label="Search" className="p-1.5 text-campaign-navy/60 hover:text-campaign-blue">
+            <Search size={18} />
+          </button>
           <Link
             href="/volunteer"
             className="rounded-full bg-campaign-red px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-campaign-red/90"

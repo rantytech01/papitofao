@@ -34,6 +34,8 @@ export default async function PublicLayout({
           ward={candidate?.ward ?? "the Ward"}
         />
       )}
+      {/* Left-edge accent bar, matching the party site */}
+      <div className="pointer-events-none fixed bottom-0 left-0 top-0 z-40 hidden w-2 bg-gradient-to-b from-campaign-blue via-campaign-blue to-campaign-red md:block" />
       <main>{children}</main>
       <SiteFooter />
     </>
