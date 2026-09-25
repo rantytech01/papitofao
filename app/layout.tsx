@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/lib/supabase/server";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
 
 const display = Barlow_Condensed({
   subsets: ["latin"],
@@ -59,35 +57,14 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const supabase = createClient();
-
-  const [{ data: nav }, { data: candidate }, { data: campaignSettings }] =
-    await Promise.all([
-      supabase
-        .from("navigation_items")
-        .select("*")
-        .eq("is_visible", true)
-        .order("display_order"),
-      supabase.from("candidate_profile").select("*").eq("id", 1).maybeSingle(),
-      supabase.from("campaign_settings").select("*").eq("id", 1).maybeSingle(),
-    ]);
-
   return (
     <html lang="en" className={`${display.variable} ${body.variable}`}>
-      <body>
-        <SiteHeader
-          navItems={nav ?? []}
-          candidate={candidate ?? null}
-          campaignSettings={campaignSettings ?? null}
-        />
-        <main>{children}</main>
-        <SiteFooter />
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

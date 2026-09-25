@@ -62,8 +62,14 @@ export function SiteHeader({
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-5 md:flex">
           <ContactButtons settings={campaignSettings} variant="compact" />
+          <Link
+            href="/volunteer"
+            className="rounded-full bg-campaign-red px-5 py-2 text-sm font-bold text-white transition-colors hover:bg-campaign-red/90"
+          >
+            Get Involved
+          </Link>
         </div>
 
         <button
@@ -90,8 +96,15 @@ export function SiteHeader({
               </li>
             ))}
           </ul>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap items-center gap-3">
             <ContactButtons settings={campaignSettings} />
+            <Link
+              href="/volunteer"
+              onClick={() => setOpen(false)}
+              className="rounded-full bg-campaign-red px-5 py-2 text-sm font-bold text-white"
+            >
+              Get Involved
+            </Link>
           </div>
         </nav>
       )}
