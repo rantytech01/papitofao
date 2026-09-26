@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "News" };
 
 export default async function NewsPage() {

@@ -1,5 +1,8 @@
 import { AdminSidebar } from "@/components/admin/admin-sidebar";
 
+// Admin screens must always show live data, never a cached snapshot.
+export const dynamic = "force-dynamic";
+
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-campaign-navy/[0.02]">

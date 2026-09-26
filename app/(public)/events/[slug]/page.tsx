@@ -2,7 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function EventDetailPage({ params }: { params: { slug: string } }) {
   const supabase = createClient();

@@ -3,6 +3,8 @@ import { Barlow_Condensed, Inter } from "next/font/google";
 import "./globals.css";
 import { createClient } from "@/lib/supabase/server";
 
+export const dynamic = "force-dynamic";
+
 const display = Barlow_Condensed({
   subsets: ["latin"],
   weight: ["500", "600", "700", "800"],

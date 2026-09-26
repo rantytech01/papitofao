@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { ContactButtons } from "@/components/contact-buttons";
 import { ContactForm } from "@/components/contact-form";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Contact" };
 
 export default async function ContactPage() {

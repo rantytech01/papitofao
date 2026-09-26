@@ -6,7 +6,7 @@ import { SectionHeading } from "@/components/section-heading";
 import { ContactButtons } from "@/components/contact-buttons";
 import type { HomepageSection } from "@/lib/types";
 
-export const revalidate = 60; // pick up admin edits within a minute without a redeploy
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const supabase = createClient();

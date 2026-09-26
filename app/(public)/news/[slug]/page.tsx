@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { createClient } from "@/lib/supabase/server";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 async function getArticle(slug: string) {
   const supabase = createClient();

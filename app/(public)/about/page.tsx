@@ -2,7 +2,7 @@ import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import type { AboutSection } from "@/lib/types";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 export const metadata = { title: "About" };
 
 export default async function AboutPage() {

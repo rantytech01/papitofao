@@ -3,6 +3,12 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CountdownBar } from "@/components/countdown-bar";
 
+// Never cache this layout's Supabase reads — nav items, candidate info, and
+// contact settings must reflect admin changes immediately, not a stale
+// build-time or fetch-cache snapshot.
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
+
 export default async function PublicLayout({
   children,
 }: {
