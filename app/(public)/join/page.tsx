@@ -100,7 +100,7 @@ export default function JoinPage() {
           <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
         </div>
 
-        <TurnstileWidget />
+        <TurnstileWidget action="join" />
 
         <SubmitButton />
 
