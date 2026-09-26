@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Trash2 } from "lucide-react";
 import { createPoll, setPollStatus, deletePoll, addPollOption, deletePollOption } from "@/app/actions/polls";
+import { PollLiveResults } from "@/components/admin/poll-live-results";
 
 interface Option {
   id: string;
@@ -84,6 +85,8 @@ function PollRow({ poll }: { poll: Poll }) {
           + Add
         </button>
       </div>
+
+      {poll.status !== "draft" && <PollLiveResults pollId={poll.id} />}
     </div>
   );
 }
