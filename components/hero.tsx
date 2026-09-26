@@ -64,7 +64,7 @@ export function Hero({
                 alt={candidate.candidate_name}
                 fill
                 priority
-                className="object-cover"
+                className="object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-campaign-blue/60 via-campaign-blue/10 to-transparent" />
             </>
