@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { CandidateProfile, HomepageSection } from "@/lib/types";
+import { HeroPlaceholder } from "@/components/hero-placeholder";
 
 /**
  * TEMPORARY: headline, subtext, second button, and the three quick-links
@@ -71,9 +72,7 @@ export function Hero({
               <div className="absolute inset-0 bg-gradient-to-t from-campaign-blue/60 via-campaign-blue/10 to-transparent" />
             </>
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-campaign-blue text-white">
-              <span className="font-display text-2xl font-bold">{candidate.candidate_name}</span>
-            </div>
+            <HeroPlaceholder label={candidate.movement_name || "PEOPLE'S MOVEMENT"} />
           )}
           <div className="absolute bottom-4 left-4 rounded-lg bg-white/95 px-4 py-2 shadow">
             <p className="text-xs font-semibold uppercase tracking-wide text-campaign-red">

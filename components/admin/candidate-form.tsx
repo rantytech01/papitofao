@@ -95,6 +95,11 @@ export function CandidateForm({ candidate }: { candidate: CandidateProfile | nul
         <div>
           <label className="admin-label">Profile photo URL</label>
           <input name="profile_photo_url" defaultValue={candidate?.profile_photo_url ?? ""} className="admin-field" />
+          {!candidate?.profile_photo_url && (
+            <p className="mt-1 text-xs font-medium text-amber-600">
+              Empty — the homepage hero is showing an illustrated placeholder instead of a real photo.
+            </p>
+          )}
         </div>
         <div>
           <label className="admin-label">Candidate logo URL</label>
