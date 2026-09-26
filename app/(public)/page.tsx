@@ -5,6 +5,7 @@ import { Hero } from "@/components/hero";
 import { SectionHeading } from "@/components/section-heading";
 import { ContactButtons } from "@/components/contact-buttons";
 import type { HomepageSection } from "@/lib/types";
+import { createClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -53,10 +54,14 @@ export default async function HomePage() {
   );
   const orderedSections = sections ?? [];
 
+  const supabase = await createClient();
+const { data: memberCountData } = await supabase.rpc("get_member_count");
+const memberCount = memberCountData ?? 0;
+
   return (
     <div>
       {bySectionKey.has("hero") && (
-        <Hero candidate={candidate ?? null} section={bySectionKey.get("hero")!} />
+        <Hero candidate={candidate ?? null} section={bySectionKey.get("hero")!} memberCount={memberCount} />
       )}
 
       {orderedSections
