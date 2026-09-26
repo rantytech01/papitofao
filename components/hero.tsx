@@ -2,21 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import type { CandidateProfile, HomepageSection } from "@/lib/types";
 import { HeroPlaceholder } from "@/components/hero-placeholder";
+import { MemberCounter } from "@/components/member-counter";
 
 /**
- * TEMPORARY: headline, subtext, second button, and the three quick-links
- * below are hardcoded to match the party site 1:1, per explicit request
- * (get the layout/visual match first, wire Papito-specific copy in later).
- * Everything marked below is a good candidate to move into
- * homepage_sections fields (or new columns) once the wording is final —
- * the first button and image already pull from the CMS.
+ * TEMPORARY: headline and subtext are hardcoded to match the party site 1:1,
+ * per explicit request (get the layout/visual match first, wire
+ * Papito-specific copy in later). Good candidates to move into
+ * homepage_sections fields once the wording is final — the first button and
+ * image already pull from the CMS.
  */
 export function Hero({
   candidate,
   section,
+  memberCount,
 }: {
   candidate: CandidateProfile | null;
   section: HomepageSection | null;
+  memberCount: number;
 }) {
   if (!candidate) return null;
 
@@ -36,14 +38,21 @@ export function Hero({
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-           
+            <Link
+              href="/join"
+              className="rounded-full bg-campaign-red px-7 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
+            >
+              Become a Member
+            </Link>
           </div>
 
-          {/* HARDCODED quick links to match party site's Donate/Volunteer/Member Login row */}
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-campaign-blue">
             <Link href="/contact" className="border-b border-campaign-red pb-0.5 hover:opacity-80">Donate →</Link>
             <Link href="/volunteer" className="border-b border-campaign-blue pb-0.5 hover:opacity-80">Volunteer →</Link>
-           
+          </div>
+
+          <div className="mt-6">
+            <MemberCounter initialCount={memberCount} />
           </div>
         </div>
 
