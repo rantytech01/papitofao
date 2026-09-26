@@ -1,14 +1,22 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import { Facebook, Instagram, Twitter, Youtube, Linkedin, Globe } from "lucide-react";
 
-const platformLabel: Record<string, string> = {
-  Facebook: "Facebook",
-  Instagram: "Instagram",
-  TikTok: "TikTok",
-  X: "X",
-  YouTube: "YouTube",
-  LinkedIn: "LinkedIn",
+// Maps a social_links.platform value to an icon. Falls back to a generic
+// globe icon for anything not explicitly listed (e.g. TikTok, which lucide
+// doesn't ship a dedicated icon for) rather than rendering nothing.
+const SOCIAL_ICONS: Record<string, typeof Facebook> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  twitter: Twitter,
+  x: Twitter,
+  youtube: Youtube,
+  linkedin: Linkedin,
 };
+
+function getSocialIcon(platform: string) {
+  return SOCIAL_ICONS[platform.toLowerCase()] ?? Globe;
+}
 
 export async function SiteFooter() {
   const supabase = createClient();
@@ -48,14 +56,24 @@ export async function SiteFooter() {
         {social && social.length > 0 && (
           <div>
             <p className="mb-2 font-semibold text-white/90">Follow</p>
-            <ul className="flex flex-wrap gap-3 text-sm text-white/70">
-              {social.map((s) => (
-                <li key={s.id}>
-                  <Link href={s.url} target="_blank" rel="noopener noreferrer" className="hover:text-white">
-                    {s.display_name || platformLabel[s.platform] || s.platform}
-                  </Link>
-                </li>
-              ))}
+            <ul className="flex flex-wrap gap-3">
+              {social.map((s) => {
+                const Icon = getSocialIcon(s.platform);
+                return (
+                  <li key={s.id}>
+                    <Link
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={s.display_name || s.platform}
+                      title={s.display_name || s.platform}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white/80 transition-colors hover:bg-white hover:text-campaign-navy"
+                    >
+                      <Icon size={16} />
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         )}
