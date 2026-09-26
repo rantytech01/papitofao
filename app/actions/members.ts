@@ -43,3 +43,21 @@ export async function joinAsMember(
 
   return { status: "success", message: "Welcome to the movement! 🎉" };
 }
+
+export async function setMemberStatus(id: string, status: "active" | "archived") {
+  const supabase = createClient();
+  const { error } = await supabase.from("members").update({ status }).eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/members");
+  revalidatePath("/"); // archiving/reactivating changes the public counter
+}
+
+export async function deleteMember(id: string) {
+  const supabase = createClient();
+  const { error } = await supabase.from("members").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/admin/members");
+  revalidatePath("/");
+}
