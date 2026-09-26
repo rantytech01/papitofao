@@ -43,7 +43,7 @@ export function Hero({
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-campaign-blue">
             <Link href="/contact" className="border-b border-campaign-red pb-0.5 hover:opacity-80">Donate →</Link>
             <Link href="/volunteer" className="border-b border-campaign-blue pb-0.5 hover:opacity-80">Volunteer →</Link>
-            <Link href="/admin/login" className="border-b border-campaign-blue pb-0.5 hover:opacity-80">Member Login →</Link>
+           
           </div>
         </div>
 
