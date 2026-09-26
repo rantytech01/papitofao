@@ -121,7 +121,7 @@ export function GalleryManager({ categories, items }: { categories: Category[]; 
               <Image src={item.image_url} alt={item.caption ?? ""} fill className="object-cover" />
               <div className="absolute inset-0 flex items-start justify-end gap-1 bg-black/0 p-1.5 opacity-0 transition-opacity group-hover:bg-black/30 group-hover:opacity-100">
                 <button onClick={() => startTransition(() => toggleGalleryItemFeatured(item.id, !item.is_featured))} className="rounded bg-white/90 p-1">
-                  <Star size={14} fill={item.is_featured ? "#ED1111" : "none"} className="text-campaign-red" />
+                  <Star size={14} fill={item.is_featured ? "#F0181E" : "none"} className="text-campaign-red" />
                 </button>
                 <button onClick={() => startTransition(() => toggleGalleryItem(item.id, !item.is_visible))} className="rounded bg-white/90 p-1">
                   {item.is_visible ? <Eye size={14} /> : <EyeOff size={14} />}

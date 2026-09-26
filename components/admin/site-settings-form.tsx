@@ -22,15 +22,15 @@ export function SiteSettingsForm({ settings }: { settings: SiteSettings | null }
       <div className="grid gap-4 sm:grid-cols-3">
         <div>
           <label className="admin-label">Primary color</label>
-          <input name="primary_color" type="text" defaultValue={settings?.primary_color ?? "#0757D5"} className="admin-field" />
+          <input name="primary_color" type="text" defaultValue={settings?.primary_color ?? "#003491"} className="admin-field" />
         </div>
         <div>
           <label className="admin-label">Secondary color</label>
-          <input name="secondary_color" type="text" defaultValue={settings?.secondary_color ?? "#ED1111"} className="admin-field" />
+          <input name="secondary_color" type="text" defaultValue={settings?.secondary_color ?? "#F0181E"} className="admin-field" />
         </div>
         <div>
           <label className="admin-label">Accent color</label>
-          <input name="accent_color" type="text" defaultValue={settings?.accent_color ?? "#071B3A"} className="admin-field" />
+          <input name="accent_color" type="text" defaultValue={settings?.accent_color ?? "#111827"} className="admin-field" />
         </div>
       </div>
       <p className="text-xs text-campaign-navy/50">

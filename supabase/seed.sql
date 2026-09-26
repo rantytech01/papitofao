@@ -20,7 +20,7 @@ insert into campaign_settings (id, primary_phone) values (1, '+254725656735')
 on conflict (id) do nothing;
 
 insert into site_settings (id, website_name, website_title, primary_color, secondary_color, accent_color)
-values (1, 'Newton Papito 2027', 'Newton Papito — MCA Roysambu Ward 2027', '#0757D5', '#ED1111', '#071B3A')
+values (1, 'Newton Papito 2027', 'Newton Papito — MCA Roysambu Ward 2027', '#003491', '#F0181E', '#111827')
 on conflict (id) do nothing;
 
 insert into navigation_items (label, url, display_order) values
