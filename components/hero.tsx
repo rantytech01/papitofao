@@ -60,10 +60,10 @@ export function Hero({
         </div>
 
         <div className="relative mx-auto aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl border-4 border-white shadow-xl">
-          {candidate.profile_photo_url ? (
+          {(section?.image_url || candidate.profile_photo_url) ? (
             <>
               <Image
-                src={candidate.profile_photo_url}
+                src={section?.image_url || candidate.profile_photo_url!}
                 alt={candidate.candidate_name}
                 fill
                 priority
