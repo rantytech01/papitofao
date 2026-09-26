@@ -35,7 +35,9 @@ export async function joinAsMember(
     return { status: "error", message: rateLimit.reason };
   }
 
-  const turnstileOk = await verifyTurnstile(formData.get("cf-turnstile-response"), getRequestIp());
+  const turnstileOk = await verifyTurnstile(formData.get("cf-turnstile-response"), getRequestIp(), {
+    expectedAction: "join",
+  });
   if (!turnstileOk) {
     return { status: "error", message: "Verification failed. Please try again." };
   }
