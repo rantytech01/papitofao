@@ -11,14 +11,14 @@ import Script from "next/script";
  * Renders nothing if NEXT_PUBLIC_TURNSTILE_SITE_KEY isn't set — safe to
  * leave in place before you've set up Turnstile.
  */
-export function TurnstileWidget() {
+export function TurnstileWidget({ action }: { action?: string }) {
   const siteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
   if (!siteKey) return null;
 
   return (
     <>
       <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer />
-      <div className="cf-turnstile" data-sitekey={siteKey} data-theme="light" />
+      <div className="cf-turnstile" data-sitekey={siteKey} data-theme="light" data-action={action} />
     </>
   );
 }
