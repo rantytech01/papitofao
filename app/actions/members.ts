@@ -2,6 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
+import { checkRateLimit, isHoneypotTripped, getRequestIp } from "@/lib/form-protection";
+import { verifyTurnstile } from "@/lib/turnstile";
 
 export type JoinFormState = {
   status: "idle" | "success" | "error";
@@ -12,6 +14,13 @@ export async function joinAsMember(
   _prevState: JoinFormState,
   formData: FormData
 ): Promise<JoinFormState> {
+  // Honeypot: a bot that fills every field trips this. Real visitors never
+  // see or fill it. Pretend success rather than error, so bots don't learn
+  // to leave it blank specifically.
+  if (isHoneypotTripped(formData)) {
+    return { status: "success", message: "Welcome to the movement! 🎉" };
+  }
+
   const full_name = (formData.get("full_name") as string)?.trim();
   const phone = (formData.get("phone") as string)?.trim();
   const email = ((formData.get("email") as string) || "").trim() || null;
@@ -19,6 +28,16 @@ export async function joinAsMember(
 
   if (!full_name || !phone) {
     return { status: "error", message: "Name and phone number are required." };
+  }
+
+  const rateLimit = await checkRateLimit("join", { deviceMax: 2, ipMax: 10, windowMinutes: 60 });
+  if (!rateLimit.allowed) {
+    return { status: "error", message: rateLimit.reason };
+  }
+
+  const turnstileOk = await verifyTurnstile(formData.get("cf-turnstile-response"), getRequestIp());
+  if (!turnstileOk) {
+    return { status: "error", message: "Verification failed. Please try again." };
   }
 
   // NOTE: adjust this import/call if your server client is set up differently
