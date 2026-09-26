@@ -54,6 +54,13 @@ export async function joinAsMember(
   });
 
   if (error) {
+    // Unique constraint violation on phone_normalized = this person already joined.
+    if (error.code === "23505") {
+      return {
+        status: "error",
+        message: "This phone number is already registered as a member. You're already part of the movement! 🎉",
+      };
+    }
     console.error("joinAsMember error:", error);
     return { status: "error", message: "Something went wrong. Please try again." };
   }
@@ -62,7 +69,10 @@ export async function joinAsMember(
   // even for visitors who load the page fresh right after this signup.
   revalidatePath("/");
 
-  return { status: "success", message: "Welcome to the movement! 🎉" };
+  return {
+    status: "success",
+    message: "You're now part of TukoChama TukoPM. We'll be in touch with updates on how to get involved.",
+  };
 }
 
 export async function setMemberStatus(id: string, status: "active" | "archived") {
