@@ -58,7 +58,7 @@ export default async function NewsArticlePage({ params }: { params: { slug: stri
       )}
       {article.featured_image_url && (
         <div className="relative mt-6 aspect-[16/9] w-full overflow-hidden rounded-xl">
-          <Image src={article.featured_image_url} alt={article.title} fill className="object-cover" />
+          <Image src={article.featured_image_url} alt={article.title} fill className="object-cover object-top" />
         </div>
       )}
       {article.content && (

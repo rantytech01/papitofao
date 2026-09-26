@@ -104,7 +104,7 @@ export default async function HomePage() {
                                   src={article.featured_image_url}
                                   alt={article.title}
                                   fill
-                                  className="object-cover transition-transform group-hover:scale-105"
+                                  className="object-cover object-top transition-transform group-hover:scale-105"
                                 />
                               </div>
                             )}
@@ -180,12 +180,12 @@ export default async function HomePage() {
                     {gallery && gallery.length > 0 && (
                       <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
                         {gallery.map((item) => (
-                          <div key={item.id} className="relative aspect-square overflow-hidden rounded-lg">
+                          <div key={item.id} className="relative aspect-square overflow-hidden rounded-lg shadow-sm">
                             <Image
                               src={item.image_url}
                               alt={item.caption ?? ""}
                               fill
-                              className="object-cover"
+                              className="object-cover object-top"
                             />
                           </div>
                         ))}

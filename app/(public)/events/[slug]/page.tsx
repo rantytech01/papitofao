@@ -46,7 +46,7 @@ export default async function EventDetailPage({ params }: { params: { slug: stri
             src={event.featured_image_url || event.poster_url}
             alt={event.title}
             fill
-            className="object-cover"
+            className="object-cover object-top"
           />
         </div>
       )}

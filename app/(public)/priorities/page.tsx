@@ -26,8 +26,8 @@ export default async function PrioritiesPage() {
         {(items ?? []).map((item) => (
           <div key={item.id} className="rounded-xl border border-campaign-navy/10 p-5">
             {item.image_url && (
-              <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-lg">
-                <Image src={item.image_url} alt={item.title} fill className="object-cover" />
+              <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-lg shadow-sm">
+                <Image src={item.image_url} alt={item.title} fill className="object-cover object-top" />
               </div>
             )}
             {item.category && (

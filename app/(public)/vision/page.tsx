@@ -26,8 +26,8 @@ export default async function VisionPage() {
         {(items ?? []).map((item) => (
           <div key={item.id} className="rounded-xl border border-campaign-navy/10 p-6">
             {item.image_url && (
-              <div className="relative mb-4 aspect-[16/9] overflow-hidden rounded-lg">
-                <Image src={item.image_url} alt={item.title} fill className="object-cover" />
+              <div className="relative mb-4 aspect-[4/3] overflow-hidden rounded-lg shadow-sm">
+                <Image src={item.image_url} alt={item.title} fill className="object-cover object-top" />
               </div>
             )}
             <h2 className="mb-2 font-display text-xl font-bold text-campaign-navy">{item.title}</h2>

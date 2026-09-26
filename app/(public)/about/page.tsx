@@ -41,8 +41,8 @@ export default async function AboutPage() {
               }
             >
               {hasImage && imageFirst && (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                  <Image src={section.image_url!} alt={section.title} fill className="object-cover" />
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-sm">
+                  <Image src={section.image_url!} alt={section.title} fill className="object-cover object-top" />
                 </div>
               )}
 
@@ -54,8 +54,8 @@ export default async function AboutPage() {
                   {section.title}
                 </h2>
                 {hasImage && section.image_position === "top" && (
-                  <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-xl">
-                    <Image src={section.image_url!} alt={section.title} fill className="object-cover" />
+                  <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-xl shadow-sm">
+                    <Image src={section.image_url!} alt={section.title} fill className="object-cover object-top" />
                   </div>
                 )}
                 {section.content && (
@@ -68,8 +68,8 @@ export default async function AboutPage() {
               </div>
 
               {hasImage && !imageFirst && section.image_position === "right" && (
-                <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                  <Image src={section.image_url!} alt={section.title} fill className="object-cover" />
+                <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-sm">
+                  <Image src={section.image_url!} alt={section.title} fill className="object-cover object-top" />
                 </div>
               )}
             </section>

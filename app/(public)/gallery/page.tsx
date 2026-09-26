@@ -37,8 +37,8 @@ export default async function GalleryPage() {
             <h2 className="mb-4 font-display text-xl font-bold text-campaign-navy">{cat.name}</h2>
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
               {catItems.map((item) => (
-                <div key={item.id} className="relative aspect-square overflow-hidden rounded-lg">
-                  <Image src={item.image_url} alt={item.caption ?? cat.name} fill className="object-cover" />
+                <div key={item.id} className="relative aspect-square overflow-hidden rounded-lg shadow-sm">
+                  <Image src={item.image_url} alt={item.caption ?? cat.name} fill className="object-cover object-top" />
                 </div>
               ))}
             </div>

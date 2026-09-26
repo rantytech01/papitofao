@@ -34,7 +34,7 @@ export default async function NewsPage() {
                   src={article.featured_image_url}
                   alt={article.title}
                   fill
-                  className="object-cover transition-transform group-hover:scale-105"
+                  className="object-cover object-top transition-transform group-hover:scale-105"
                 />
               </div>
             )}

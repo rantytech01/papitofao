@@ -31,8 +31,8 @@ export default async function CommunityPage() {
             }`}
           >
             {item.image_url && (
-              <div className="relative aspect-[4/3] overflow-hidden rounded-xl">
-                <Image src={item.image_url} alt={item.title} fill className="object-cover" />
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl shadow-sm">
+                <Image src={item.image_url} alt={item.title} fill className="object-cover object-top" />
               </div>
             )}
             <div>
