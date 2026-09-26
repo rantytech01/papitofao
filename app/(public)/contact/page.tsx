@@ -1,9 +1,26 @@
 import { createClient } from "@/lib/supabase/server";
 import { ContactButtons } from "@/components/contact-buttons";
 import { ContactForm } from "@/components/contact-form";
+import { Facebook, Instagram, Twitter, Youtube, Linkedin, Globe } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Contact" };
+
+// Maps a social_links.platform value to an icon. Falls back to a generic
+// globe icon for anything not explicitly listed (e.g. TikTok, which lucide
+// doesn't ship a dedicated icon for) rather than rendering nothing.
+const SOCIAL_ICONS: Record<string, typeof Facebook> = {
+  facebook: Facebook,
+  instagram: Instagram,
+  twitter: Twitter,
+  x: Twitter,
+  youtube: Youtube,
+  linkedin: Linkedin,
+};
+
+function getSocialIcon(platform: string) {
+  return SOCIAL_ICONS[platform.toLowerCase()] ?? Globe;
+}
 
 export default async function ContactPage() {
   const supabase = createClient();
@@ -39,12 +56,23 @@ export default async function ContactPage() {
           </dl>
 
           {social && social.length > 0 && (
-            <div className="mt-8 flex gap-4 text-sm font-medium text-campaign-blue">
-              {social.map((s) => (
-                <a key={s.id} href={s.url} target="_blank" rel="noopener noreferrer">
-                  {s.display_name || s.platform}
-                </a>
-              ))}
+            <div className="mt-8 flex gap-3">
+              {social.map((s) => {
+                const Icon = getSocialIcon(s.platform);
+                return (
+                  <a
+                    key={s.id}
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={s.display_name || s.platform}
+                    title={s.display_name || s.platform}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-campaign-navy/5 text-campaign-navy transition-colors hover:bg-campaign-blue hover:text-white"
+                  >
+                    <Icon size={18} />
+                  </a>
+                );
+              })}
             </div>
           )}
         </div>
