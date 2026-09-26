@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { castVote, getPollResults } from "@/app/actions/polls";
+import { SuccessCelebration } from "@/components/success-celebration";
 
 interface Option {
   id: string;
@@ -38,6 +39,7 @@ export function PollWidget({
 }) {
   const [results, setResults] = useState<Result[]>(initialResults);
   const [hasVoted, setHasVoted] = useState(false);
+  const [justVoted, setJustVoted] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,6 +73,7 @@ export function PollWidget({
 
     localStorage.setItem(`poll_voted_${pollId}`, "1");
     setHasVoted(true);
+    setJustVoted(true);
     const fresh = await getPollResults(pollId);
     setResults(fresh);
     setSubmitting(false);
@@ -83,7 +86,13 @@ export function PollWidget({
       </p>
       <h2 className="mt-1 font-display text-xl font-bold text-campaign-navy">{question}</h2>
 
-      {showResults ? (
+      {justVoted ? (
+        <SuccessCelebration
+          message="Thanks for your feedback! 🎉"
+          subMessage="Your response has been counted."
+          onDone={() => setJustVoted(false)}
+        />
+      ) : showResults ? (
         <div className="mt-5 space-y-3">
           {results.map((r) => {
             const pct = totalVotes > 0 ? Math.round((Number(r.votes) / totalVotes) * 100) : 0;
