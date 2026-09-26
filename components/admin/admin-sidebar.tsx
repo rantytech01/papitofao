@@ -26,6 +26,7 @@ const groups: { heading: string; items: { label: string; href: string }[] }[] = 
       { label: "Messages", href: "/admin/messages" },
       { label: "Volunteers", href: "/admin/volunteers" },
       { label: "Members", href: "/admin/members" },
+      { label: "Polls", href: "/admin/polls" },
       { label: "Contact", href: "/admin/contact" },
       { label: "Social Media", href: "/admin/social" },
     ],
