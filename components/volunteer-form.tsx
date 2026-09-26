@@ -2,10 +2,21 @@
 
 import { useState, useTransition } from "react";
 import { submitVolunteerForm } from "@/app/actions/volunteer-form";
+import { SuccessCelebration } from "@/components/success-celebration";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 
 export function VolunteerForm() {
   const [isPending, startTransition] = useTransition();
   const [result, setResult] = useState<{ ok: boolean; error?: string } | null>(null);
+
+  if (result?.ok) {
+    return (
+      <SuccessCelebration
+        message="Thanks for stepping up! 🎉"
+        subMessage="We've got your details and will be in touch about how to get involved."
+      />
+    );
+  }
 
   return (
     <form
@@ -28,6 +39,14 @@ export function VolunteerForm() {
       <input name="preferred_involvement" placeholder="How would you like to help?" className="input" />
       <textarea name="message" placeholder="Anything else we should know?" rows={4} className="input" />
 
+      {/* Honeypot: hidden from real visitors, tab-skipped, never filled by a human */}
+      <div className="absolute left-[-9999px]" aria-hidden="true">
+        <label htmlFor="volunteer-website">Website</label>
+        <input id="volunteer-website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
+      <TurnstileWidget action="volunteer" />
+
       <button
         type="submit"
         disabled={isPending}
@@ -36,12 +55,7 @@ export function VolunteerForm() {
         {isPending ? "Submitting…" : "Join the Movement"}
       </button>
 
-      {result?.ok && (
-        <p className="text-sm font-medium text-green-700">Thank you — we&apos;ll be in touch.</p>
-      )}
-      {result && !result.ok && (
-        <p className="text-sm font-medium text-campaign-red">{result.error}</p>
-      )}
+      {result && !result.ok && <p className="text-sm font-medium text-campaign-red">{result.error}</p>}
 
       <style jsx>{`
         .input {
