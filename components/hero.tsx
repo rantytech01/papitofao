@@ -36,19 +36,7 @@ export function Hero({
           </p>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/volunteer"
-              className="rounded-full bg-campaign-red px-7 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
-            >
-              Become a Member
-            </Link>
-            {/* HARDCODED second button — schema only has one button slot today */}
-            <Link
-              href="/volunteer"
-              className="rounded-full bg-campaign-navy px-7 py-3 text-sm font-bold text-white shadow-sm transition-transform hover:-translate-y-0.5"
-            >
-              Apply as Aspirant
-            </Link>
+           
           </div>
 
           {/* HARDCODED quick links to match party site's Donate/Volunteer/Member Login row */}
