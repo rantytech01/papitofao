@@ -8,9 +8,12 @@ import { createClient } from "@/lib/supabase/client";
  * (initialCount), then ticks up live via Supabase Realtime whenever someone
  * new joins — no invented numbers, no polling.
  *
- * Requires Realtime to be enabled for the "members" table in the Supabase
- * dashboard (Database → Replication). Without that, this still shows the
- * correct count on every page load, it just won't update live in-session.
+ * Listens to "member_join_events" rather than "members" directly: Realtime
+ * respects RLS, and "members" is intentionally admin-only to SELECT (it
+ * holds phone numbers/emails), so anonymous visitors would never receive
+ * INSERT events on it. member_join_events carries no personal data and is
+ * publicly readable, so it's safe to subscribe to from any visitor's
+ * browser. A database trigger keeps it in sync with real signups.
  */
 export function MemberCounter({ initialCount }: { initialCount: number }) {
   const [count, setCount] = useState(initialCount);
@@ -26,7 +29,7 @@ export function MemberCounter({ initialCount }: { initialCount: number }) {
       .channel("members-count")
       .on(
         "postgres_changes",
-        { event: "INSERT", schema: "public", table: "members" },
+        { event: "INSERT", schema: "public", table: "member_join_events" },
         () => setCount((c) => c + 1)
       )
       .subscribe();
