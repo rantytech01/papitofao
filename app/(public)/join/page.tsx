@@ -3,6 +3,7 @@
 import { useFormState, useFormStatus } from "react-dom";
 import { joinAsMember, type JoinFormState } from "@/app/actions/members";
 import { SuccessCelebration } from "@/components/success-celebration";
+import { TurnstileWidget } from "@/components/turnstile-widget";
 
 const initialState: JoinFormState = { status: "idle" };
 
@@ -92,6 +93,14 @@ export default function JoinPage() {
             className="mt-1 w-full rounded-lg border border-campaign-navy/20 px-4 py-2.5 outline-none focus:border-campaign-red"
           />
         </div>
+
+        {/* Honeypot: hidden from real visitors, tab-skipped, never filled by a human */}
+        <div className="absolute left-[-9999px]" aria-hidden="true">
+          <label htmlFor="website">Website</label>
+          <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" />
+        </div>
+
+        <TurnstileWidget />
 
         <SubmitButton />
 
