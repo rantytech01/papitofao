@@ -14,6 +14,7 @@ const groups: { heading: string; items: { label: string; href: string }[] }[] = 
       { label: "Vision", href: "/admin/vision" },
       { label: "Priorities", href: "/admin/priorities" },
       { label: "Community", href: "/admin/community" },
+      { label: "Ward Map", href: "/admin/ward-map" },
       { label: "News", href: "/admin/news" },
       { label: "Events", href: "/admin/events" },
       { label: "Gallery", href: "/admin/gallery" },

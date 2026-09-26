@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { FlipDigit } from "@/components/flip-digit";
 
 function getTimeLeft(target: Date) {
   const diff = Math.max(0, target.getTime() - Date.now());
@@ -12,8 +13,21 @@ function getTimeLeft(target: Date) {
   };
 }
 
-function pad(n: number) {
-  return n.toString().padStart(2, "0");
+function pad(n: number, width = 2) {
+  return n.toString().padStart(width, "0");
+}
+
+function FlipUnit({ value, label }: { value: string; label: string }) {
+  return (
+    <div className="flex flex-col items-center">
+      <div className="flex gap-[2px] rounded-md border-2 border-campaign-red bg-campaign-blue-dark px-1.5 py-1.5 font-display text-lg font-extrabold leading-none text-white">
+        {value.split("").map((ch, i) => (
+          <FlipDigit key={i} char={ch} />
+        ))}
+      </div>
+      <p className="mt-1 text-[9px] font-semibold uppercase tracking-wide text-white/70">{label}</p>
+    </div>
+  );
 }
 
 export function CountdownBar({
@@ -38,11 +52,11 @@ export function CountdownBar({
     year: "numeric",
   });
 
-  const units: { label: string; value: number }[] = [
-    { label: "Days", value: time.days },
-    { label: "Hours", value: time.hours },
-    { label: "Mins", value: time.minutes },
-    { label: "Secs", value: time.seconds },
+  const units = [
+    { label: "Days", value: pad(time.days, time.days >= 100 ? 3 : 2) },
+    { label: "Hours", value: pad(time.hours) },
+    { label: "Mins", value: pad(time.minutes) },
+    { label: "Secs", value: pad(time.seconds) },
   ];
 
   return (
@@ -56,13 +70,7 @@ export function CountdownBar({
         </div>
         <div className="flex gap-2">
           {units.map((u) => (
-            <div
-              key={u.label}
-              className="min-w-[52px] rounded-md border-2 border-campaign-red bg-campaign-blue-dark px-2 py-1 text-center"
-            >
-              <p className="font-display text-lg font-extrabold leading-none">{pad(u.value)}</p>
-              <p className="text-[9px] font-semibold uppercase tracking-wide text-white/70">{u.label}</p>
-            </div>
+            <FlipUnit key={u.label} value={u.value} label={u.label} />
           ))}
         </div>
       </div>

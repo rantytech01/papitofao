@@ -1,20 +1,27 @@
 import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
+import { WardMapSection } from "@/components/ward-map-section";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Community" };
 
 export default async function CommunityPage() {
   const supabase = createClient();
-  const { data: items } = await supabase
-    .from("community_sections")
-    .select("*")
-    .eq("status", "published")
-    .order("display_order");
+  const [{ data: items }, { data: locations }] = await Promise.all([
+    supabase.from("community_sections").select("*").eq("status", "published").order("display_order"),
+    supabase.from("ward_locations").select("*").eq("is_visible", true).order("display_order"),
+  ]);
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-16 md:px-6">
-      <h1 className="mb-10 font-display text-4xl font-extrabold text-campaign-navy">Community</h1>
+      <h1 className="mb-4 font-display text-4xl font-extrabold text-campaign-navy">Community</h1>
+
+      <div className="mb-12">
+        <p className="mb-4 text-sm text-campaign-navy/60">
+          Explore Roysambu Ward — tap a marker to see what&apos;s there.
+        </p>
+        <WardMapSection locations={(locations ?? []) as any} />
+      </div>
 
       {(!items || items.length === 0) && (
         <p className="text-campaign-navy/50">
