@@ -36,6 +36,11 @@ const categoryLabel: Record<string, string> = {
  * tiles (free, no API key). Must only be loaded client-side — Leaflet
  * touches `window` at import time — so this is always imported via
  * next/dynamic with ssr:false from ward-map-section.tsx.
+ *
+ * The ward boundary itself (public/roysambu-ward-boundary.geojson) is
+ * the real Roysambu Ward polygon extracted from IEBC's 2013 electoral
+ * boundary shapefiles (via the mikelmaron/kenya-election-data open
+ * dataset) — not an approximation or a single reference point.
  */
 export function WardMap({ locations }: { locations: WardLocation[] }) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -49,20 +54,37 @@ export function WardMap({ locations }: { locations: WardLocation[] }) {
       const L = (await import("leaflet")).default;
       if (cancelled || !containerRef.current || mapRef.current) return;
 
-      const center: [number, number] =
-        locations.length > 0
-          ? [locations[0].latitude, locations[0].longitude]
-          : [-1.21833, 36.88639]; // Roysambu Ward reference point
-
       const map = L.map(containerRef.current, {
         scrollWheelZoom: false,
-      }).setView(center, 14);
+      }).setView([-1.2183, 36.8864], 13); // provisional center, replaced once the boundary loads
       mapRef.current = map;
 
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         maxZoom: 19,
       }).addTo(map);
+
+      // Real Roysambu Ward boundary (IEBC 2013 shapefile)
+      try {
+        const res = await fetch("/roysambu-ward-boundary.geojson");
+        const geojson = await res.json();
+        if (cancelled) return;
+        const boundaryLayer = L.geoJSON(geojson, {
+          style: {
+            color: "#F0181E",
+            weight: 2.5,
+            fillColor: "#003491",
+            fillOpacity: 0.08,
+          },
+        }).addTo(map);
+        map.fitBounds(boundaryLayer.getBounds(), { padding: [20, 20] });
+      } catch {
+        // If the boundary fails to load, fall back to centering on the
+        // first admin-added location (or the provisional view above).
+        if (locations.length > 0) {
+          map.setView([locations[0].latitude, locations[0].longitude], 14);
+        }
+      }
 
       locations.forEach((loc) => {
         const color = categoryColor[loc.category] ?? categoryColor.area;

@@ -21,6 +21,9 @@ export default async function CommunityPage() {
           Explore Roysambu Ward — tap a marker to see what&apos;s there.
         </p>
         <WardMapSection locations={(locations ?? []) as any} />
+        <p className="mt-2 text-xs text-campaign-navy/40">
+          Ward boundary sourced from IEBC&apos;s official electoral boundaries.
+        </p>
       </div>
 
       {(!items || items.length === 0) && (

@@ -34,7 +34,7 @@ values (
   'Roysambu Ward',
   'Central reference point for the ward.',
   'area',
-  -1.21833,
-  36.88639,
+  -1.2223,
+  36.8543,
   0
 );
