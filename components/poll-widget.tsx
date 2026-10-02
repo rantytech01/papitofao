@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { castVote, getPollResults } from "@/app/actions/polls";
 import { SuccessCelebration } from "@/components/success-celebration";
+import { ShareCard } from "@/components/share-card";
 
 interface Option {
   id: string;
@@ -112,6 +113,11 @@ export function PollWidget({
             {totalVotes} response{totalVotes === 1 ? "" : "s"} so far · informal community feedback, not a scientific
             survey
           </p>
+          {hasVoted && (
+            <div className="pt-3">
+              <ShareCard note={`I just shared my view on "${question}" — add yours too:`} />
+            </div>
+          )}
         </div>
       ) : (
         <div className="mt-5 space-y-2">

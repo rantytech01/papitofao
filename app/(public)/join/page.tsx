@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
 import { joinAsMember, type JoinFormState } from "@/app/actions/members";
 import { SuccessCelebration } from "@/components/success-celebration";
 import { TurnstileWidget } from "@/components/turnstile-widget";
+import { ShareCard } from "@/components/share-card";
 
 const initialState: JoinFormState = { status: "idle" };
 
@@ -22,12 +24,16 @@ function SubmitButton() {
 
 export default function JoinPage() {
   const [state, formAction] = useFormState(joinAsMember, initialState);
+  const [enteredName, setEnteredName] = useState("");
 
   if (state.status === "success") {
     return (
       <section className="mx-auto max-w-lg px-4 py-16 md:py-20">
         <SuccessCelebration message="Welcome to the movement! 🎉" subMessage={state.message} />
-        <p className="mt-2 text-center text-sm text-campaign-navy/60">
+        <div className="mt-6">
+          <ShareCard name={enteredName || undefined} />
+        </div>
+        <p className="mt-6 text-center text-sm text-campaign-navy/60">
           <a href="/" className="font-semibold text-campaign-blue hover:underline">
             ← Back to the homepage
           </a>
@@ -54,6 +60,7 @@ export default function JoinPage() {
             id="full_name"
             name="full_name"
             required
+            onChange={(e) => setEnteredName(e.target.value)}
             className="mt-1 w-full rounded-lg border border-campaign-navy/20 px-4 py-2.5 outline-none focus:border-campaign-red"
           />
         </div>
