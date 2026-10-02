@@ -30,7 +30,7 @@ export async function joinAsMember(
     return { status: "error", message: "Name and phone number are required." };
   }
 
-  const rateLimit = await checkRateLimit("join", { deviceMax: 2, ipMax: 10, windowMinutes: 60 });
+  const rateLimit = await checkRateLimit("join", { deviceMax: 3, windowMinutes: 24 * 60 });
   if (!rateLimit.allowed) {
     return { status: "error", message: rateLimit.reason };
   }

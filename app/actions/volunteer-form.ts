@@ -34,7 +34,7 @@ export async function submitVolunteerForm(formData: FormData) {
     return { ok: false, error: "Please fill in your name at least." };
   }
 
-  const rateLimit = await checkRateLimit("volunteer", { deviceMax: 2, ipMax: 10, windowMinutes: 60 });
+  const rateLimit = await checkRateLimit("volunteer", { deviceMax: 3, windowMinutes: 24 * 60 });
   if (!rateLimit.allowed) {
     return { ok: false, error: rateLimit.reason };
   }

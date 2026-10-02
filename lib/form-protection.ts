@@ -42,22 +42,23 @@ export function getRequestIp(): string {
 }
 
 /**
- * Combined device + IP rate limit. Both must pass. Device limit is the
- * primary signal (tighter); IP limit is a looser backstop that still
- * catches a bot cycling through cleared cookies from the same machine,
- * without being so tight it blocks a shared network.
+ * Per-device submission limit only — no IP-based check. IP limiting was
+ * dropped because many people share a carrier/network IP (NAT), which
+ * risks blocking innocent people on the same network as someone else
+ * who already submitted. Default policy: up to 3 submissions per device
+ * per rolling 24 hours, so the same supporter can realistically submit
+ * again (e.g. updating their details) without being permanently blocked,
+ * while still throttling scripted abuse from one device.
  */
 export async function checkRateLimit(
   actionName: string,
-  options?: { deviceMax?: number; ipMax?: number; windowMinutes?: number }
+  options?: { deviceMax?: number; windowMinutes?: number }
 ): Promise<{ allowed: boolean; reason?: string }> {
   const deviceMax = options?.deviceMax ?? 3;
-  const ipMax = options?.ipMax ?? 15;
-  const windowMinutes = options?.windowMinutes ?? 60;
+  const windowMinutes = options?.windowMinutes ?? 24 * 60;
 
   const supabase = createClient();
   const deviceId = getOrSetDeviceId();
-  const ip = getRequestIp();
 
   const { data: deviceOk } = await supabase.rpc("check_and_log_submission", {
     p_action: `${actionName}:device`,
@@ -67,18 +68,7 @@ export async function checkRateLimit(
   });
 
   if (!deviceOk) {
-    return { allowed: false, reason: "Too many submissions from this device. Please try again later." };
-  }
-
-  const { data: ipOk } = await supabase.rpc("check_and_log_submission", {
-    p_action: `${actionName}:ip`,
-    p_fingerprint: ip,
-    p_max: ipMax,
-    p_window_minutes: windowMinutes,
-  });
-
-  if (!ipOk) {
-    return { allowed: false, reason: "Too many submissions from this network. Please try again later." };
+    return { allowed: false, reason: "You've reached the limit of 3 submissions per day. Please try again tomorrow." };
   }
 
   return { allowed: true };
