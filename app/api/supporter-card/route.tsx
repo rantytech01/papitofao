@@ -84,6 +84,7 @@ export async function GET(request: Request) {
               style={{
                 borderRadius: "50%",
                 objectFit: "cover",
+                objectPosition: "top",
                 border: "8px solid #FFFFFF",
                 marginBottom: "40px",
               }}
