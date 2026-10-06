@@ -2,6 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { CountdownBar } from "@/components/countdown-bar";
+import { WhatsAppFloatButton } from "@/components/whatsapp-float-button";
 
 // Never cache this layout's Supabase reads — nav items, candidate info, and
 // contact settings must reflect admin changes immediately, not a stale
@@ -44,6 +45,10 @@ export default async function PublicLayout({
       <div className="pointer-events-none fixed bottom-0 left-0 top-0 z-40 hidden w-2 bg-gradient-to-b from-campaign-blue via-campaign-blue to-campaign-red md:block" />
       <main>{children}</main>
       <SiteFooter />
+      <WhatsAppFloatButton
+        whatsappNumber={campaignSettings?.whatsapp_number ?? null}
+        primaryPhone={campaignSettings?.primary_phone ?? null}
+      />
     </>
   );
 }
